@@ -1,0 +1,15 @@
+.circle_text{
+  dominant-baseline: middle;
+  text-anchor: middle;
+  fill: white;
+  font-size: 2.5em;
+  font-family: serif;
+}
+
+.axes_label{
+  dominant-baseline: middle;
+  text-anchor: middle;
+  fill: black;
+  font-size: 0.8em;
+  font-family: serif;
+}

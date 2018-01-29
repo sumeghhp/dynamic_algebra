@@ -1,0 +1,84 @@
+<html lang="en">
+<head>
+  <title>Factorisation system</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1.0,maximum-scale=1.0"/>
+</head>
+
+<script src="../libraries/core/d3.v4.min.js"></script>
+<script src="../libraries/core/d3-selection-multi.v1.min.js"></script>
+<script src="../libraries/core/jquery-3.2.1.min.js"></script>
+
+<script src="../libraries/math/math.min.js"></script>
+
+<script src="../libraries/ui/popper.min.js"></script>
+<script src="../libraries/ui/bootstrap.min.js"></script>
+
+<script type="text/x-mathjax-config"> MathJax.Hub.Config({ extensions: ["tex2jax.js"], jax: ["input/TeX","output/HTML-CSS"], tex2jax: { inlineMath: [["\(","\)"]] } }); </script>
+<script type="text/javascript" src="../libraries/math/MathJax/MathJax.js"></script>
+
+<link rel="stylesheet" href="../libraries/ui/bootstrap.min.css">
+<link rel="stylesheet" href="../libraries/ui/font-awesome-4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="stylesheet.css">
+
+<body>
+
+<div class = 'container' style = 'width: 1000px;'>
+
+  <div class = 'text-center mt-2'>
+    <span class = 'input_span'>
+      <text>Factorize this number: </text>
+      <input type = 'number' placeholder = "0" id = 'text_input' min = 0></input>
+    </span>
+  </div>
+
+  <div class = 'text-center mt-2'>
+    <span class = 'input_span'>
+      <text>with: </text>
+      <select id = 'factor_input'>
+        <option value = '2'>2</option>
+        <option value = '3'>3</option>
+        <option value = '5'>5</option>
+        <option value = '10'>10</option>
+      </select>
+    </span>
+  </div>
+
+  <div class = 'text-center mt-2'>
+    <button class = 'btn btn-primary' id = 'enter_btn'>Do it!</button>
+  </div>
+
+</div>
+
+</body>
+
+<script>
+
+var number = 0, factor = 2;
+
+d3.select('#text_input').on('change', function(){
+  number = this.value;
+})
+
+d3.select('#factor_input').on('change', function(){
+  factor = this.value;
+})
+
+d3.select('#enter_btn').on('click', function(){
+  $('body').trigger('enter_clicked');
+})
+
+$('body').on('enter_clicked', function(){
+  factorize(number, factor);
+})
+
+function factorize(number, factor){
+  quotient = parseInt( number/factor );
+  remainder = parseInt( number%factor );
+
+  var text = '$$ ' +number+ ' = ' +quotient+ '*' +factor+ ' + ' +remainder+ ' $$';
+  d3.select('body').append('div').attrs({ 'class': 'text-center latex_text mt-1' }).html(text);
+  MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+}
+
+</script>
