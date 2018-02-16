@@ -21,15 +21,15 @@
 <link rel="stylesheet" href="../libraries/ui/font-awesome-4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="stylesheet.css">
 
-<!-- <body>
+<body>
   <div class = 'container text-center' style = 'width: 1000px;'>
 
     <div> <svg id = 'canvas' style = 'width: 800px; height: 500px;'></svg> </div>
     <div class= 'row'>
 
     <div class = 'col-md-4'>
-      <div class = 'mt-2'> Number of ₹1 coins: <input id = 'coin_1_number_input' type = 'number' min = '0' max = '20' value = '5'></input> </div>
-      <div class = 'mt-2'> Number of ₹2 coins: <input id = 'coin_2_number_input' type = 'number' min = '0' max = '20' value = '5'></input> </div>
+      <div class = 'mt-2'> Number of ₹1 coins: <input id = 're1_input' type = 'number' min = '0' max = '20' value = '5'></input> </div>
+      <div class = 'mt-2'> Number of ₹2 coins: <input id = 're2_input' type = 'number' min = '0' max = '20' value = '5'></input> </div>
       <div id = 'total_eqn' class = 'mt-4'></div>
       <div class = 'mt-2'>Total amount: <span id = 'total_value'></span> </div>
     </div>
@@ -40,200 +40,50 @@
 
   </div>
   </div>
-</body> -->
-
-<body>
-
-  <div class = 'container-fluid text-center'  style = 'width: 1024px;'>
-
-      <div class="row">
-        <div class = "col-md-7">
-          <font size="6.5">
-          <div class = 'mt-2'> Number of ₹1 coins: <input id = 'coin_1_number_input' type = 'number' min = '0' max = '20' value = '5'></input> </div>
-          <div class = 'mt-2'> Number of ₹2 coins: <input id = 'coin_2_number_input' type = 'number' min = '0' max = '20' value = '5'></input> </div>
-          <div id = 'total_eqn' class = 'mt-4'></div>
-          <div class = 'mt-2'>Total amount: <span id = 'total_value'></span> </div>
-          <div class = 'mt-3'>
-            <button id = 'archive_btn' class = 'button big-btn' style="backgroundcolor:green">Archive</button>
-            <button id = 'clear_archive_btn' class = 'button big-btn ' style="backgroundcolor:red;">Clear Archive</button>
-
-          <div  id = 'archive_div'></div>
-</font>
-          </div>
-        </div>
-
-        <div class = 'col-md-5'>
-          <div> <svg id = 'canvas' style = 'width: 800px; height: 500px;'></svg> </div>
-
-          <div> <svg id = 'coins_select_svg' style = 'width: 800px; height: 100px;'></svg> </div>
-          <div class = 'mt-4'></div>
-          <font size="6.5">
-        <div  id = 'archive_div'></div>
-        <div class = 'col-md-9' id = 'archive_div'></div><font>
-        </div>
-    </div>
-
 </body>
 
 <script>
 
-var coin_values = [{ value: 1, selected: false, color: 'steelblue' },
-                   { value: 2, selected: false, color: 'orange' },
-                   { value: 5, selected: false, color: 'red' },
-                   { value: 10, selected: false, color: 'green' }];
+var re1 = 5, re2 = 5, total, nodes;
+setupGraph();
 
-var coin_1_number = 5, coin_2_number = 5,
-    coin_1_value = coin_values[0].value, coin_2_value = coin_values[1].value,
-    coin_1_color = coin_values[0].color, coin_2_color = coin_values[1].color,
-    total, nodes;
-
-var r_small = 35, r_big = 40;
-var data_log = [];
-
-$(document).ready(function(){
-  setup(); update(); events();
+d3.select('#re1_input').on('input', function(){
+  if(this.value > 20){ this.value = 20; }
+  re1 = this.value;
+  update();
 })
 
-$('body').on('data_log', function(event, d){
-  var temp = {
-    coin_1_value: coin_1_value, coin_2_value: coin_2_value,
-    coin_1_number: coin_1_number, coin_2_number: coin_2_number,
-    total: total,
-    event_type: d.type
-  };
-  data_log.push(temp);
+d3.select('#re2_input').on('input', function(){
+  if(this.value > 20){ this.value = 20; }
+  re2 = this.value;
+  update();
 })
 
-/*******************************************************************************/
-// Assigning event listeners
-
-function events(){
-  d3.select('#coin_1_number_input').on('input', function(){
-    if(this.value > 20){ this.value = 20; }
-    coin_1_number = parseInt(this.value);
-    update();
-    $('body').trigger('data_log', { type: 'input_1_change' });
-  })
-
-  d3.select('#coin_2_number_input').on('input', function(){
-    if(this.value > 20){ this.value = 20; }
-    coin_2_number = parseInt(this.value);
-    update();
-    $('body').trigger('data_log', { type: 'input_2_change' });
-  })
-
-  d3.select('#archive_btn').on('click', function(){
-    var text = '\(' + coin_1_number+ '*₹' +coin_1_value+ ' + ' +coin_2_number+ '*₹' +coin_2_value+ ' = ₹' +total + '\)';
-    d3.select('#archive_div').append('div').attrs({ class: 'my-3' }).html(text);
-    MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
-    $('body').trigger('data_log', { type: 'archive' });
-  })
-
-  d3.select('#clear_archive_btn').on('click', function(){
-    d3.select('#archive_div').selectAll('div').remove();
-    setupArchive();
-    $('body').trigger('data_log', { type: 'clear_archive' });
-  })
-}
-
-/*******************************************************************************/
-// The overacrching functions
-
-function setup(){
-  // setupGraph();
-  setupArchive();
-  setupCoins();
-}
+/**************************************************************/
 
 function update(){
-  total = coin_1_number*coin_1_value + coin_2_number*coin_2_value;
-  var text = '\(' + coin_1_number+ '*₹' +coin_1_value+ ' + ' +coin_2_number+ '*₹' +coin_2_value+ ' = ₹' +total + '\)';
+  total = re1*1 + re2*2;
+  var text = '\(' + re1+ '*₹1 + ' +re2+ '*₹2 = ₹' +total + '\)';
   d3.select('#total_eqn').html(text);
   d3.select('#total_value').html('' + total);
   MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
   drawCanvas();
-  // updateGraph();
-  updateCoins();
-}
+  updateGraph();
+} update();
 
-/*******************************************************************************/
-// Functions related to the coins selection
-
-var coins_clicked_count = 0;
-
-function setupCoins(){
-  var width = parseInt(d3.select('#coins_select_svg').style('width'));
-  var height = parseInt(d3.select('#coins_select_svg').style('height'));
-
-  var radius = 0.35*height;
-      num = coin_values.length;
-
-  for(var i = 0; i < num; i++){
-    var temp_x = (i+2.5)*(width/8), temp_y = 0.5*height;
-    var g = d3.select('#coins_select_svg').append('g').attrs({ class: 'coin_option', transform: 'translate(' +temp_x+ ',' +temp_y+ ')' }).styles({ 'cursor': 'hand' });
-    g.append('circle').attrs({ r: radius }).styles({ stroke: 'gray', fill: 'white', 'stroke-width': 3 });
-    g.append('text').attrs({ class: 'label' }).attrs({ cx: temp_x, cy: temp_y }).html(coin_values[i].value);
-  }
-
-  d3.selectAll('.coin_option').data(coin_values)
-    .on('click', function(d){
-      if(d.selected == true){ d.selected = false; coins_clicked_count--; }
-      else{ d.selected = true; coins_clicked_count++; }
-      if(coins_clicked_count == 2){ assignNewValues(); }
-      update();
-    })
-}
-
-function updateCoins(){
-  d3.selectAll('.coin_option').each(function(d){
-    d3.select(this).select('circle').styles({ fill: 'white', stroke: 'gray' });
-    if(d.value == coin_1_value || d.value == coin_2_value){
-      d3.select(this).select('circle').styles({ fill: '#DDD' });
-    }
-
-    if(d.selected == true){ d3.select(this).select('circle').styles({ stroke: '#222' }); }
-  })
-}
-
-function assignNewValues(){
-  var temp = [];
-  d3.selectAll('.coin_option').each(function(d){ if(d.selected == true){ temp.push(d.value); d.selected = false; } });
-  coin_1_value = math.min(temp);
-  coin_2_value = math.max(temp);
-  for(var i = 0; i < coin_values.length; i++){
-    if(coin_1_value == coin_values[i].value){ coin_1_color = coin_values[i].color };
-    if(coin_2_value == coin_values[i].value){ coin_2_color = coin_values[i].color };
-  }
-  coins_clicked_count = 0;
-  $('body').trigger('data_log', { type: 'coins_changed' });
-}
-
-/*******************************************************************************/
-// Functions related to the archive
-
-function setupArchive(){
-  d3.select('#archive_div').append('div').attrs({ class: 'heading_archive' }).html('Archive');
-}
-
-/*******************************************************************************/
-// Functions realted to the coins canvas
+/**************************************************************/
 
 function drawCanvas(){
   nodes = [];
-  d3.range(coin_1_number).forEach(function(i){ nodes.push({ r: r_small, value: coin_1_value }) });
-  d3.range(coin_2_number).forEach(function(i){ nodes.push({ r: r_big, value: coin_2_value }) });
-
-  var canvas_width = parseInt(d3.select('#canvas').style('width')),
-      canvas_height = parseInt(d3.select('#canvas').style('height'));
-
-  d3.select('#canvas').append('rect').attrs({ width: '100%', height: '100%', rx: 20, ry: 20 }).styles({ 'fill': '#EEE' });
+  d3.range(re1).forEach(function(i){ nodes.push({ r: 35, value: 1 }) });
+  d3.range(re2).forEach(function(i){ nodes.push({ r: 40, value: 2 }) });
 
   d3.selectAll('.circle').remove();
   d3.select('#canvas')
-    .append('g').attrs({ 'transform': 'translate(' +(0.5*canvas_width)+ ',' +(0.5*canvas_height)+ ')' })
+    .append('g').attrs({ 'transform': 'translate(' +400+ ',' +250+ ')' })
     .selectAll('.circle').data(nodes).enter()
     .append('g').attrs({ class: 'circle' })
-    .append('circle').attrs({ r: function(d){ return d.r }, fill: function(d){ if(d.value == coin_1_value){ return coin_1_color } else{ return coin_2_color } } });
+    .append('circle').attrs({ r: function(d){ return d.r }, fill: function(d){ if(d.value == 1){ return '#ff6347' } else{ return '#1e90ff' } } });
 
   d3.selectAll('.circle')
     .append('text').attrs({ class: 'circle_text' }).text( function(d){ return d.value } );
@@ -252,8 +102,7 @@ function drawCanvas(){
   })
 }
 
-/*******************************************************************************/
-// Functions related to the graph
+/**************************************************************/
 
 var xScale, yScale;
 function setupGraph(){
@@ -284,11 +133,10 @@ function setupGraph(){
 function updateGraph(){
   var p1 = { x: 0, y: total/2 }, p2 = { x: total/1, y: 0 };
   d3.select('#line').attrs({ x1: xScale(p1.x), y1: yScale(p1.y), x2: xScale(p2.x), y2: yScale(p2.y) });
-  d3.select('#point').attrs({ cx: xScale(coin_1_number), cy: yScale(coin_2_number) });
+  d3.select('#point').attrs({ cx: xScale(re1), cy: yScale(re2) });
 
-  d3.select('#x-normal').attrs({ x1: xScale(coin_1_number), y1: yScale(coin_2_number), x2: xScale(coin_1_number), y2: yScale(0) });
-  d3.select('#y-normal').attrs({ x1: xScale(coin_1_number), y1: yScale(coin_2_number), x2: xScale(0), y2: yScale(coin_2_number) });
+  d3.select('#x-normal').attrs({ x1: xScale(re1), y1: yScale(re2), x2: xScale(re1), y2: yScale(0) });
+  d3.select('#y-normal').attrs({ x1: xScale(re1), y1: yScale(re2), x2: xScale(0), y2: yScale(re2) });
 }
 
 </script>
-
