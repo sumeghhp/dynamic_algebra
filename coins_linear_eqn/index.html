@@ -71,11 +71,11 @@ div#archive_div {
 <script src="../libraries/ui/bootstrap.min.js"></script>
 
 <script type="text/x-mathjax-config"> MathJax.Hub.Config({ extensions: ["tex2jax.js"], jax: ["input/TeX","output/HTML-CSS"], tex2jax: { inlineMath: [["\(","\)"]] } }); </script>
-<script type="text/javascript" src="../libraries/math/MathJax/MathJax.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
 <link rel="stylesheet" href="../libraries/ui/bootstrap.min.css">
 <link rel="stylesheet" href="../libraries/ui/font-awesome-4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="stylesheet.css">
+<link rel="stylesheet" href="../stylesheet.css">
 <link rel="stylesheet" href="font-awesome.min.css">
 
 <!-- <body>
@@ -106,14 +106,14 @@ div#archive_div {
       <div class="row">
         <div class = "col-md-7">
           <font size="6.5">
-          <div class = 'mt-2'> <div id = 'coin1_text'>Number of ₹1 coins:
+          <div class = 'mt-2'> <div><span id = 'coin1_text'>Number of ₹1 coins:</span>
 
 
             <input id = 'coin_1_number_input' type = 'number' min = '0' max = '20' value = '5'></div>
             </input>
 
           </div>
-          <div class = 'mt-2'> Number of ₹2 coins:
+          <div class = 'mt-2'> <span id = 'coin2_text'>Number of ₹2 coins:</span>
             <input id = 'coin_2_number_input' type = 'number' min = '0' max = '20' value = '5'>
             </input>
           </div>
@@ -225,6 +225,8 @@ function update(){
   d3.select('#total_value').html('' + total);
   d3.select('#total_number').html('' + number_of_coins);
   MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+  d3.select('#coin1_text').html('Number of ₹' +coin_1_value+ ' coins:');
+  d3.select('#coin2_text').html('Number of ₹' +coin_2_value+ ' coins:');
   drawCanvas();
   // updateGraph();
   updateCoins();
@@ -380,3 +382,4 @@ function updateGraph(){
 }
 
 </script>
+
