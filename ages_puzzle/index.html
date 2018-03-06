@@ -228,7 +228,7 @@ div#archive_div {
   </div>
 
   <div class = 'text-center mt-2'>
-    <button class = 'find_button' id = 'enter_btn'> Calculate</button>
+    <button class = 'find_button' id = 'enter_btn'><font color="white"> Calculate</font></button>
   </div>
   <div class = 'mt-3'>
   <center><div class="center border">
@@ -303,12 +303,12 @@ function agefunc(ages){
   minimum = ages[0];
   maximum = ages[3];
   diff = maximum - minimum;
-  sum = maximum + minimum;
+  sum = ages [0] + ages[1]+ ages[2]+ ages[3];
 
   var text1 = '<table border="1"><tr><td>'+ 'Youngest person\'s age =' +minimum + '<br>'
   var text2 = 'Oldest person\'s age =' +maximum + '<br>'
-  var text3 = 'Difference = '+ diff + '<br>'
-  var text4 = 'Sum ='+ sum + '<br>' + '</td></tr></table><br>'
+  var text3 = 'Difference of smallest and largest age= '+ diff + '<br>'
+  var text4 = 'Sum of all ages= '+ sum + '<br>' + '</td></tr></table><br>'
   var text =  text1 + text2 + text3 + text4;
   d3.select('#archive_div').append('div').append('span').attrs({ class: 'my-3' }).html(text);
   $('body').trigger('data_log', { type: 'archive' });

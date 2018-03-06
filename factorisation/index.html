@@ -70,6 +70,9 @@ div#archive_div {
     visibility: visible;
     opacity: 1;
 }
+.active{
+  background-color: #ff1a8c;
+}
 </style>
 
 
@@ -119,7 +122,8 @@ div#archive_div {
         <button class = 'factor_input' value= 2> 2</button>
         <button class = 'factor_input' value= 3> 3</button>
         <button class = 'factor_input' value= 4> 4</button>
-        <button class = 'factor_input' value= 5> 5</button>
+        <button class = 'factor_input' value= 5> 5</button><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <button class = 'factor_input' value= 6> 6</button>
         <button class = 'factor_input' value= 8> 8</button>
         <button class = 'factor_input' value= 7> 7</button>
@@ -138,7 +142,12 @@ div#archive_div {
 
 <script>
 
-
+jQuery(function($) {
+  $('.factor_input').click(function() {
+    $('.factor_input').not(this).removeClass('active');
+    $(this).addClass('active');
+  });
+});
 
 var number = 0, factor = 2;
 var data_log = [];
