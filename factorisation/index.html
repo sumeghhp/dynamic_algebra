@@ -13,13 +13,16 @@
     cursor: pointer;
     border-radius: 12px;
 }
-
 .factor_input {background-color: #E6E6FA;
   border-radius: 12px;
   width: 50px;} /* Blue */
-
 input[type=number]::-webkit-inner-spin-button {
   opacity: 1;
+}
+br {
+  content: " ";
+  display: block;
+  margin: 10px;
 }
 .border {
   border: 5px solid RosyBrown;
@@ -37,7 +40,6 @@ div#archive_div {
     display: inline-block;
     border-bottom: 1px dotted black;
 }
-
 .tooltip .tooltiptext {
     visibility: hidden;
     width: 120px;
@@ -54,7 +56,6 @@ div#archive_div {
     opacity: 0;
     transition: opacity 0.3s;
 }
-
 .tooltip .tooltiptext::after {
     content: "";
     position: absolute;
@@ -65,7 +66,6 @@ div#archive_div {
     border-style: solid;
     border-color: #555 transparent transparent transparent;
 }
-
 .tooltip:hover .tooltiptext {
     visibility: visible;
     opacity: 1;
@@ -101,7 +101,7 @@ div#archive_div {
 
 <body>
 <font size="6.5">
-<div class = 'container' style = 'width: 1000px;'>
+<div class = 'container' style = 'width: 100%'>
 
   <div class = 'text-center mt-2'>
     <span class = 'input_span'>
@@ -148,14 +148,11 @@ jQuery(function($) {
     $(this).addClass('active');
   });
 });
-
 var number = 0, factor = 2;
 var data_log = [];
-
 d3.select('#text_input').on('change', function(){
   number = parseInt(this.value);
 })
-
 $('body').on('data_log', function(event, data){
   var temp = {
     type: data.type,
@@ -165,7 +162,6 @@ $('body').on('data_log', function(event, data){
   };
   data_log.push(temp);
 })
-
 // d3.select('#factor_input').on('click', function(){
 //   //console.log(this.value);
 //   factor = parseInt(this.value);
@@ -173,35 +169,28 @@ $('body').on('data_log', function(event, data){
 //   //this.checked = true;
 //   factorize(number, factor);
 // })
-
 function setup(){
   // setupGraph();
   setupArchive();
   $('body').trigger('data_log', {type: 'setup'});
 }
-
 $(document).ready(function(){
   setup(); //update(); events();
 })
-
 d3.selectAll('.factor_input').on('click', function(){
   factor = parseInt(this.value);
   factorize(number, factor);
 })
-
 // d3.select('#factor_input').on('change', function(){
 //   // factor = parseInt(this.value);
 //   // console.log(d3.select(this));
 // })
-
 d3.select('#archive_btn').on('click', function(){
   factorize(number, factor);
 })
-
 // $('body').on('enter_clicked', function(){
 //   factorize(number, factor);
 // })
-
 function factorize(number, factor){
   quotient = parseInt( number/factor );
   remainder = parseInt( number%factor );
@@ -213,15 +202,12 @@ function factorize(number, factor){
   MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
   $('body').trigger('data_log', { type: 'archive' });
 }
-
 function setupArchive(){
   d3.select('#archive_div')
   .append('div')
   .attrs({ class: 'heading_archive' })
   .html('<center>Board</center>');
-
 }
-
 //for writing on the archive/board
   //d3.select('#archive_btn').on('click', function(){
 //    var text = '$$ ' +number+ ' = ' +quotient+ '\\times' +factor+ ' + ' +remainder+ ' $$';
@@ -238,10 +224,7 @@ function setupArchive(){
     setupArchive();
     $('body').trigger('data_log', { type: 'clear_archive' });
   })
-
 // Sending data over to server
 function send_data(){
-
 }
-
 </script>
