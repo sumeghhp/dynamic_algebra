@@ -180,6 +180,7 @@ $('body').on('data_log', function(event, d){
     event_type: d.type
   };
   data_log.push(temp);
+  submitData(data_log);
 })
 
 /*******************************************************************************/
@@ -385,6 +386,51 @@ function updateGraph(){
 
   d3.select('#x-normal').attrs({ x1: xScale(coin_1_number), y1: yScale(coin_2_number), x2: xScale(coin_1_number), y2: yScale(0) });
   d3.select('#y-normal').attrs({ x1: xScale(coin_1_number), y1: yScale(coin_2_number), x2: xScale(0), y2: yScale(coin_2_number) });
+}
+
+function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0; i<ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0)==' ') c = c.substring(1);
+      if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
+    }
+}
+function submitData(data_log){
+  var user_id = this.getCookie('user_id')
+  var data =
+  {
+  "app_name": "ages_puzzle",
+  "params":
+  {
+    data_log,
+    "language" : "en"
+  }
+}
+var data_string = {}
+data_string['user_id'] = this.getCookie('user_id');
+var date = new Date();
+var csrftoken;
+csrftoken = this.getCookie('csrftoken');
+  var timestamp = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " +  date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+data_string['created_at'] = timestamp
+for (var key in data) {data_string[key] = data[key];};
+data_string = JSON.stringify(data_string);
+  // var csrftoken;
+  // csrftoken = this.getCookie('csrftoken');
+  $.ajax({
+                type: "POST",
+                data:{
+                      "user_data":data_string,
+                      "app_name":"ages_puzzle",
+                      'csrfmiddlewaretoken':csrftoken,
+                  },
+                url: "/tools/logging",
+                datatype: "json",
+                success: function(data) {
+              }
+});
 }
 
 </script>
