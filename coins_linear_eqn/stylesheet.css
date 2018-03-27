@@ -1,8 +1,8 @@
 .circle_text{
   dominant-baseline: middle;
   text-anchor: middle;
-  fill: white;
-  font-size: 2.5em;
+  fill: black;
+  font-size: 1.5em;
   font-family: serif;
 }
 

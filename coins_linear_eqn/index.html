@@ -19,7 +19,17 @@ div#archive_div {
     display: inline-block;
     border-bottom: 1px dotted black;
 }
-
+.container_canvas
+{
+    width:100%;
+    height:70%;
+    /*background-color:#eee;*/
+}
+.container_coins_select
+{
+    width:100%;
+    height:10%;
+}
 .tooltip .tooltiptext {
     visibility: hidden;
     width: 120px;
@@ -80,7 +90,7 @@ br {
 
 <link rel="stylesheet" href="../libraries/ui/bootstrap.min.css">
 <link rel="stylesheet" href="../libraries/ui/font-awesome-4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="../stylesheet.css">
+<link rel="stylesheet" href="stylesheet.css">
 <link rel="stylesheet" href="font-awesome.min.css">
 
 <!-- <body>
@@ -89,14 +99,14 @@ br {
     <div> <svg id = 'canvas' style = 'width: 800px; height: 500px;'></svg> </div>
     <div class= 'row'>
 
-    <div class = 'col-md-4'>
+    <div class = 'col-sm-4'>
       <div class = 'mt-2'> Number of ₹1 coins: <input id = 'coin_1_number_input' type = 'number' min = '0' max = '20' value = '5'></input> </div>
       <div class = 'mt-2'> Number of ₹2 coins: <input id = 'coin_2_number_input' type = 'number' min = '0' max = '20' value = '5'></input> </div>
       <div id = 'total_eqn' class = 'mt-4'></div>
       <div class = 'mt-2'>Total amount: <span id = 'total_value'></span> </div>
     </div>
 
-    <div class = 'col-md-8'>
+    <div class = 'col-sm-8'>
       <svg id = 'graph' style = 'width: 500px; height: 400px;'></svg>
     </div>
 
@@ -110,40 +120,42 @@ br {
   <div style = 'width: 1024px;'>
 
       <div class="row">
-        <div class = "col-md-7">
-          <font size="6.5">
-          <div class = 'mt-2'> <div><span id = 'coin1_text'>Number of ₹1 coins:</span>
+        <div class = "col-sm-7">
+          <font size="5.5">
+          <div class = 'mt-2'> <div><span id = 'coin1_text'><font size = "5.5">Number of ₹1 coins:</font></span>
 
 
             <input id = 'coin_1_number_input' type = 'number' min = '0' max = '20' value = '5'></div>
             </input>
 
           </div>
-          <div class = 'mt-2'> <span id = 'coin2_text'>Number of ₹2 coins:</span>
+          <div class = 'mt-2'> <span id = 'coin2_text'><font size = "5.5">Number of ₹2 coins:</font></span>
             <input id = 'coin_2_number_input' type = 'number' min = '0' max = '20' value = '5'>
             </input>
           </div>
           <div id = 'total_eqn' class = 'mt-4'></div>
-          <div class = 'mt-2'>Total amount: <span id = 'total_value'></span> </div>
-          <div class = 'mt-2'>Total number of coins: <span id = 'total_number'></span> </div>
+          <div class = 'mt-2'><font size = "5.5">Total amount: </font><span id = 'total_value'></span> </div>
+          <div class = 'mt-2'><font size = "5.5">Total number of coins: </font><span id = 'total_number'></span> </div>
           <div class = 'mt-3'>
-            <button id = 'archive_btn' class = 'button big-btn' style="backgroundcolor:green"> Write to board</button>
-            <button id = 'clear_archive_btn' class = 'button big-btn ' style="backgroundcolor:red;"> Erase</button>
+            &nbsp;&nbsp;<button id = 'archive_btn' class = 'btn btn-primary btn-md' style="backgroundcolor:green"> Write to board</button>
+            &nbsp;&nbsp;<button id = 'clear_archive_btn' class = 'btn btn-primary btn-md ' style="backgroundcolor:red;"> Erase</button>
           <p>
           <div  id = 'archive_div' class="center border"></div></p>
 </font>
           </div>
         </div>
 
-        <div class = 'col-md-5'>
-          <div> <svg id = 'canvas' style = 'width: 800px; height: 500px;'></svg> </div>
+        <div class = 'col-sm-5'>
+          <div> <svg id = 'canvas' class = "container_canvas"></svg> </div>
 
-          <div> <svg id = 'coins_select_svg' style = 'width: 800px; height: 100px;'></svg> </div>
-          <br><font size="8"><p>Choose coins here</p>
+          <div> <svg id = 'coins_select_svg' class = "container_coins_select"></svg> </div>
+
+
+          <br><font size="5.5"><p>Choose coins here</p>
           <div class = 'mt-4'></div>
-          <font size="6.5">
+          <font size="5.5">
         <div  id = 'archive_div'></div>
-        <div class = 'col-md-9' id = 'archive_div'></div><font>
+        <div class = 'col-sm-9' id = 'archive_div'></div><font>
         </div>
     </div>
 
@@ -151,10 +163,10 @@ br {
 
 <script>
 //attributes of the coins
-var coin_values = [{ value: 1, selected: false, color: 'steelblue' ,rad: 27},
-                   { value: 2, selected: false, color: 'orange' ,rad: 32},
-                   { value: 5, selected: false, color: 'red' ,rad: 37},
-                   { value: 10, selected: false, color: 'green' , rad: 42}];
+var coin_values = [{ value: 1, selected: false, color: 'steelblue' ,rad: 22},
+                   { value: 2, selected: false, color: 'orange' ,rad: 25},
+                   { value: 5, selected: false, color: 'red' ,rad: 27},
+                   { value: 10, selected: false, color: 'green' , rad: 30}];
 
 var coin_1_number = 5, coin_2_number = 5,
     coin_1_value = coin_values[0].value,
