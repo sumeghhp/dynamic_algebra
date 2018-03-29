@@ -3,12 +3,19 @@
 input[type=number]::-webkit-inner-spin-button {
   opacity: 1;
 }
+.body {
+  margin: 10px 10px;
+}
 .border {
   border: 5px solid RosyBrown;
 }
-.border-thin {
-  border: 2px solid RosyBrown;
+
+
+.button_board:hover {
+    background-color: white;
+    color: #4CAF50;
 }
+
 div#archive_div {
   width: 90%;
   margin: 0 auto 0 auto;
@@ -120,7 +127,7 @@ br {
   <div style = 'width: 1024px;'>
 
       <div class="row">
-        <div class = "col-sm-7">
+        <div class = "col-sm-5">
           <font size="5.5">
           <div class = 'mt-2'> <div><span id = 'coin1_text'><font size = "5.5">Number of ₹1 coins:</font></span>
 
@@ -218,13 +225,13 @@ function events(){
     d3.select('#archive_div').append('div').attrs({ class: 'my-3' }).html(text);
     MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
     $('body').trigger('data_log', { type: 'archive' });
-  })
+  }).styles({ 'cursor': 'hand' });
 //for clearing the archive/board
   d3.select('#clear_archive_btn').on('click', function(){
     d3.select('#archive_div').selectAll('div').remove();
     setupArchive();
     $('body').trigger('data_log', { type: 'clear_archive' });
-  })
+  }).styles({ 'cursor': 'hand' });
 }
 
 /*******************************************************************************/
@@ -410,10 +417,11 @@ function getCookie(cname) {
     }
 }
 function submitData(data_log){
-  var user_id = this.getCookie('user_id')
+  var user_id = this.getCookie('user_id');
+  var  buddy_list = this.getCookie('user_and_buddy_ids');
   var data =
   {
-  "app_name": "ages_puzzle",
+  "app_name": "coins_puzzle",
   "params":
   {
     data_log,
@@ -421,7 +429,9 @@ function submitData(data_log){
   }
 }
 var data_string = {}
-data_string['user_id'] = this.getCookie('user_id');
+data_string['user_id'] = this.getCookie('user_and_buddy_ids');
+// data_string['user_id'] = this.getCookie('user_id');
+// data_string['buddy_list'] = this.getCookie('user_and_buddy_ids');
 var date = new Date();
 var csrftoken;
 csrftoken = this.getCookie('csrftoken');
@@ -435,7 +445,7 @@ data_string = JSON.stringify(data_string);
                 type: "POST",
                 data:{
                       "user_data":data_string,
-                      "app_name":"ages_puzzle",
+                      "app_name":"coins_puzzle",
                       'csrfmiddlewaretoken':csrftoken,
                   },
                 url: "/tools/logging",

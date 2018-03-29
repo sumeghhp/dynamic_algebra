@@ -95,8 +95,8 @@ div#archive_div {
 <link rel="stylesheet" href="../stylesheet.css">
 <body>
 <font size="6.5">
-<div class = 'container' style = 'width: 1000px;'>
-  <div class = 'text-center mt-2'>
+<div class = 'container' style = 'width: 100%;' style="border:thin">
+  <div class = 'text-center mt-2' style = 'width: 100%;'>
     <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
@@ -353,7 +353,7 @@ function getCookie(cname) {
     }
 }
 function submitData(data_log){
-  var user_id = this.getCookie('user_id')
+  var user_id = this.getCookie('user_and_buddy_ids')
   var data =
   {
   "app_name": "ages_puzzle",
@@ -364,7 +364,7 @@ function submitData(data_log){
   }
 }
 var data_string = {}
-data_string['user_id'] = this.getCookie('user_id');
+data_string['user_id'] = this.getCookie('user_and_buddy_ids');
 var date = new Date();
 var csrftoken;
 csrftoken = this.getCookie('csrftoken');
